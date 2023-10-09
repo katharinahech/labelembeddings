@@ -18,7 +18,7 @@ posterior(z = NULL,mu = c(), sigma = c(), J, y_i = c())
   \item{mu}{Expectation, K-dimensional vector }
   \item{sigma}{Variance-Covariance Matrix, KxK-dimensional matrix}
 }
-}
+
 
 \author{
 Katharina Hechinger
