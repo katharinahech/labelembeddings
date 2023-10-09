@@ -1,14 +1,9 @@
----
-title: "embeddings_analysis_plots"
-output: html_document
-date: "2023-10-06"
----
+######################################################################
+####### Plotting the results##### ####################################
+######################################################################
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+# 0. Preparations ----------------------------------------------------
 
-```{r}
 library(patchwork) # To display 2 charts together
 library(hrbrthemes)
 library(dplyr)
@@ -17,26 +12,25 @@ library(corrplot)
 library(ggmatplot)
 library(Rtsne)
 
-so2sat_embeddings = readRDS("/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/RData/so2sat_embeddings.rds")
-cifar_embeddings = readRDS(file = "/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/RData/cifar_embeddings.rds")
-cifar_embeddings_unique = readRDS(file = "/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/RData/cifar_embeddings_unique.rds")
-plankton_embeddings = readRDS(file = "/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/RData/plankton_embeddings.rds")
+set.seed(1234)
+getwd()
+setwd('/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code')
 
-so2sat_votes = readRDS("/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/RData/so2sat_votes.rds")
-cifar_votes = readRDS(file = "/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/RData/cifar_votes.rds")
-cifar_one_hot = readRDS(file = "/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/RData/cifar_one_hot.rds")
-plankton_votes = readRDS(file = "/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/RData/plankton_votes.rds")
-```
+so2sat_embeddings = readRDS("RData/so2sat_embeddings.rds")
+cifar_embeddings = readRDS(file = "RData/cifar_embeddings.rds")
+cifar_embeddings_unique = readRDS(file = "RData/cifar_embeddings_unique.rds")
+plankton_embeddings = readRDS(file = "RData/plankton_embeddings.rds")
 
-# 1. Correlation Matrices
+so2sat_votes = readRDS("RData/so2sat_votes.rds")
+cifar_votes = readRDS(file = "RData/cifar_votes.rds")
+cifar_one_hot = readRDS(file = "RData/cifar_one_hot.rds")
+plankton_votes = readRDS(file = "RData/plankton_votes.rds")
 
-```{r}
+# 1. Correlation Matrices ----------------------------------------------------
+
 col <- colorRampPalette(c("#BB4444", "#fbe8e4", "#FFFFFF","#edf2f8", "#4477AA"))
-```
 
-## So2Sat LCZ42
-
-```{r}
+# 1.1 So2Sat
 s <- cor(so2sat_embeddings[[1]])
 colnames(s) <- paste(c(1:6,8:10, 'A', 'B', 'C', 'D', 'E', 'F', 'G'), sep="")
 rownames(s) <- paste(c(1:6,8:10, 'A', 'B', 'C', 'D', 'E', 'F', 'G'), sep="")
@@ -46,11 +40,8 @@ corrplot(s, method="color", col=col(200),
          tl.col="black", tl.srt=45, tl.cex=1, #tl.pos='lt',#Text label color and rotation
          number.cex = 1, cl.pos='b'
 )
-```
 
-## Plankton
-
-```{r}
+# 1.2 Plankton
 p <- cor(plankton_embeddings[[1]])
 corrplot(p, method="color", col=col(200),
          type="upper",
@@ -58,11 +49,8 @@ corrplot(p, method="color", col=col(200),
          tl.col="black", tl.srt=45, tl.cex=1.5, #tl.pos='lt',#Text label color and rotation
          number.cex = 1.5, cl.pos='b',cl.cex=1.3
 )
-```
 
-## Cifar10-H
-
-```{r}
+# 1.3 Cifar10
 c <- cor(cifar_embeddings[[1]])
 corrplot(c, method="color", col=col(200),
          type="upper",
@@ -70,11 +58,9 @@ corrplot(c, method="color", col=col(200),
          tl.col="black", tl.srt=45, tl.cex=1.5, #tl.pos='lt',#Text label color and rotation
          number.cex = 1.5, cl.pos='b',cl.cex=1.3
 )
-```
 
-# 2. Exemplary Embeddings
+# 2. Exemplary Embeddings -------------------------------------------------
 
-```{r}
 simulations_plot_so2sat <- function(MCMC_samples_df, image_id, z_hat, y_patterns,K){
 
   i <- as.integer(image_id)
@@ -212,12 +198,8 @@ simulations_plot_additional <- function(MCMC_samples_df, image_id, z_hat, y_patt
   return(p_final)
 
 }
-```
 
-
-## So2Sat LCZ42
-
-```{r}
+# 2.1 So2Sat
 chosen_ids <- c(349, 66, 185,17, 18)
 
 so2sat_samples = so2sat_embeddings[[2]]
@@ -228,10 +210,8 @@ for (id in chosen_ids){
   p <- simulations_plot_so2sat(so2sat_samples, id, so2sat_z, so2sat_y, K=16)
   print(p)
 }
-```
-## Plankton
 
-```{r}
+# 2.2 Plankton
 chosen_ids = list(362,303,1376,2369)
 
 plankton_samples = plankton_embeddings[[2]]
@@ -242,10 +222,8 @@ for (id in chosen_ids){
   p <- simulations_plot_additional(plankton_samples, id, plankton_z, plankton_y,K=10)
   print(p)
 }
-```
-## Cifar10-H
 
-```{r}
+# 2.3 Cifar
 chosen_ids = list(4, 8941, 4047, 3953)
 
 cifar_samples = cifar_embeddings[[2]]
@@ -256,11 +234,9 @@ for (id in chosen_ids){
   p <- simulations_plot_additional(cifar_samples, id, cifar_z, cifar_y,K=10)
   print(p)
 }
-```
 
-# 3. T-SNE Plots 
+# 3. T-SNE Plots for 2-dimensional projection --------------------------------
 
-```{r}
 custom_palette_distinct <- c(
   "#1f78b4", "#33a02c", "#e31a1c", "#ff7f00",
   "#6a3d9a", "#a6cee3", "#b2df8a", "#fb9a99",
@@ -284,12 +260,8 @@ custom_palette_binary <- c(
   rep('darkgreen',7)
 )
 
-set.seed(1234)
-```
+# 3.1 So2Sat
 
-## So2Sat 
-
-```{r}
 tsne_result <- Rtsne::Rtsne(so2sat_z, pca=FALSE, perplexity=20)
 weights <- so2sat_votes$Freq
 z_tsne <- as.data.frame(tsne_result$Y)
@@ -327,15 +299,12 @@ tsne_distinct <- ggplot(z_tsne, aes(x = V1, y = V2, color = m_vote, size=weights
   theme(legend.title = element_text(size=14),
         legend.text = element_text(size=14))
 
-
 tsne_similar
 tsne_distinct
 tsne_binary
 
-```
-## Plankton
+# 3.2 Plankton
 
-```{r}
 tsne_result <- Rtsne::Rtsne(plankton_z, pca=FALSE, perplexity=20)
 weights <- plankton_votes[,11]
 z_tsne <- as.data.frame(tsne_result$Y)
@@ -355,13 +324,9 @@ plankton_tsne_distinct <- ggplot(z_tsne, aes(x = V1, y = V2, color = m_vote, siz
         legend.text = element_text(size=14))
 
 plankton_tsne_distinct
-```
 
+# 3.3 Cifar
 
-## Cifar10-H
-
-
-```{r}
 cifar_z_unique <- cifar_embeddings_unique[[1]]
 tsne_result <- Rtsne::Rtsne(cifar_z_unique[,1:10], pca=FALSE, perplexity=20)
 weights <- cifar_votes[,11]
@@ -382,6 +347,3 @@ cifar_tsne_distinct <- ggplot(z_tsne, aes(x = V1, y = V2, size=weights, color = 
         legend.text = element_text(size=14))
 
 cifar_tsne_distinct
-
-```
-
