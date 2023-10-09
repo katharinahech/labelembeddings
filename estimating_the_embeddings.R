@@ -1,5 +1,3 @@
-# library(labelembeddings)
-
 library(devtools)
 install_github('katharinahech/labelembedding')
 library(labelembeddings)
@@ -13,6 +11,10 @@ library(data.table)
 ####### Estimating the Embeddings ####################################
 ######################################################################
 
+# set working directory to your local data folder
+
+getwd()
+setwd('/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/Data')
 
 # 1. so2sat lcz42 --------------------------------------------------
 
@@ -24,7 +26,7 @@ library(data.table)
 
 # todo: edit path to data
 
-so2sat_votes <- read.csv('/Users/katharina/Documents/PhD/Scripts_Paper_2/Python_Code/patterns_freq_11.csv')
+so2sat_votes <- read.csv('so2sat/patterns_freq_11.csv')
 so2sat_votes <- so2sat_votes[,-1]
 LCZs <- c( "X1","X2","X3","X4","X5","X6","X8","X9","X10","X11",
            "X12","X13","X14","X15","X16","X17") # lcz 7 omitted
@@ -40,7 +42,7 @@ so2sat_embeddings <- labelembeddings::run_sem_embeddings(y_patterns = so2sat_vot
 # prepare data
 
 # extract relevant infos from json
-plankton_full_data <- rjson::fromJSON(file='/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/Additional_Data/plankton/annotations.json')
+plankton_full_data <- rjson::fromJSON(file='plankton/annotations.json')
 json_relevant <- plankton_full_data[[1]][5][[1]]
 plankton_df <- rbindlist(json_relevant, fill=TRUE)
 
@@ -71,7 +73,7 @@ plankton_embeddings <- labelembeddings::run_sem_embeddings(y_patterns = plankton
 # prepare data
 
 # load dataset
-cifar_df_full <- read.csv('/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/Additional_Data/cifar10h-raw.csv')
+cifar_df_full <- read.csv('cifar/cifar10h-raw.csv')
 cifar_df_full_without_attention = cifar_df_full[cifar_df_full$is_attn_check == 0,] # delete attention checks
 cifar_df <- cifar_df_full_without_attention[c('annotator_id', 'chosen_label', 'image_filename')]
 
