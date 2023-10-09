@@ -1,0 +1,9 @@
+Package: labelembeddings
+Type: Package
+Title: MCMC Sampling from the Posterior of a Dirichlet Mulitnomial Model
+Version: 0.1.0
+Author: Katharina Hechinger
+Maintainer: Katharina Hechinger <katharina.hechinger@stat.uni-muenchen.de>
+Description: We model annotations using a Dirichlet Multinomial Model, estimated with an empirical bayes approach. For the annotations, embeddings reflecting the annotation uncertainty can be estimated by sampling from the posterior distributions.
+Encoding: UTF-8
+LazyData: true
