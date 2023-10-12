@@ -16,6 +16,9 @@ library(data.table)
 getwd()
 setwd('/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code')
 
+# set seed for reproducability
+set.seed(1997)
+
 # 1. so2sat lcz42 --------------------------------------------------
 
 # prepare data:
@@ -92,13 +95,10 @@ cifar_votes <- apply(result_matrix, c(1, 2), as.integer)
 # NOTE: here, the function is run based on the non-aggregated version of the dataset to
 #       keep the information about the respective image for visual inspection
 
-cifar_embeddings <- labelembeddings::run_sem_embeddings(y_patterns = cifar_one_hot[,1:10],
+cifar_embeddings <- labelembeddings::run_sem_embeddings(y_patterns = cifar_one_hot[,2:11],
                                                         K=10,
                                                         weights = rep(1,nrow(cifar_one_hot)),
-                                                        mcmc_tune = 0.5,
-                                                        mcmc_burnin = 50,
-                                                        mcmc_samples = 1000,
-                                                        mcmc_thin = 50)
+                                                        mcmc_tune = 0.5)
 
 cifar_embeddings_unique <- labelembeddings::run_sem_embeddings(y_patterns = cifar_votes[,1:10],
                                                                K=10,
