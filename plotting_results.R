@@ -228,12 +228,13 @@ chosen_ids = list(4, 8941, 4047, 3953)
 
 cifar_samples = cifar_embeddings[[2]]
 cifar_z = cifar_embeddings[[1]]
-cifar_y = cifar_one_hot[,1:10]
+cifar_y = cifar_one_hot[,2:11]
 
 for (id in chosen_ids){
-  p <- simulations_plot_additional(cifar_samples, id, cifar_z, cifar_y,K=10)
+  p <- simulations_plot_additional(cifar_samples, id, cifar_z, cifar_y, K=10)
   print(p)
 }
+
 
 # 3. T-SNE Plots for 2-dimensional projection --------------------------------
 
