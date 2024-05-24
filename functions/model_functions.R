@@ -59,7 +59,6 @@ mcmc_simulation <- function(y,
                              sigma=sigma_current+diag(0.001,K,K),
                              y_i=y_i,
                              theta.init=z_current_i,
-                             #V=diag(5,K,K),
                              logfun=TRUE, 
                              burnin=burnin_val,mcmc=mcmc_val,thin=thin_val,
                              tune=tune_val,
@@ -116,8 +115,7 @@ train_once <- function(y, weights,
                                      z_current,
                                      mu_current, sigma_current, 
                                      tune_val, optim_val, 
-                                     # change seed for each iteration
-                                     seed_val, # + iter,
+                                     seed_val, 
                                      burnin_val, mcmc_val, thin_val) , error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
     
     # save results
@@ -187,6 +185,7 @@ fit_model <- function(y, weights,
     # assign current values to smallest loss
     if (r_loss > best_loss){
       best_results <- r_results
+      best_loss <- r_loss
     }
   }
   

@@ -3,9 +3,14 @@ library(ggmatplot)
 library(ramify)
 library(corrplot)
 
-# Chaosnli ----------------------
+# Import results 
 
-chaosnli_results <- readRDS("results/chaosnli_results.rds")
+chaosnli_results <- readRDS("embeddings/results/chaosnli_results.rds")
+so2sat_results <- readRDS("embeddings/results/so2sat_results.rds")
+cifar_results <- readRDS("embeddings/results/cifar_results.rds")
+chaosnli_mixed_results <- readRDS("embeddings/results/chaosnli_mixed_results.rds")
+
+# Chaosnli ----------------------
 
 # 1. exploratory stats ------
 nrow(unique(chaosnli_one_hot))
@@ -194,7 +199,7 @@ for (z in cifar_embeddings_list){
 }
 
 cifar_z <- cifar_results[[1]]
-cifar_samples <- cifar_results[[4]][[3]]
+cifar_samples <- cifar_results[[4]][[length(cifar_embeddings_list)]]
 
 simulations_plot_cifar(samples=cifar_samples, id=30, z=cifar_z, y_patterns=cifar_patterns[,1:10])
 simulations_plot_cifar(samples=cifar_samples, id=2843, z=cifar_z, y_patterns=cifar_patterns[,1:10])
