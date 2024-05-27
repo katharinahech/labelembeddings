@@ -1,6 +1,6 @@
 library(MCMCpack)
-
 set.seed(123)
+setwd('/Users/katharina/Documents/PhD/Scripts_Paper_2/Github/labelembeddings')
 
 # Chaosnli -----------------
 
@@ -25,7 +25,6 @@ for (z in chaosnli_results[[3]]){
 saveRDS(chaosnli_results_full, "embeddings/results/full/chaosnli_results_full.rds")
 
 # save best z + mcmc samples in a smaller object 
-
 chaosnli_z <- chaosnli_results_full[[1]]
 chaosnli_samples <- chaosnli_results_full[[4]][[length(chaosnli_results_full[[4]])]]
 chaosnli_results <- list(chaosnli_z, chaosnli_samples)

@@ -2,13 +2,9 @@ library(factoextra)
 library(ggmatplot)
 library(ramify)
 library(corrplot)
+setwd('/Users/katharina/Documents/PhD/Scripts_Paper_2/Github/labelembeddings')
 
 # Import results and datasets
-
-chaosnli_results_full <- readRDS("embeddings/results/full/chaosnli_results_full.rds")
-so2sat_results_full <- readRDS("embeddings/results/full/so2sat_results_full.rds")
-cifar_results_full <- readRDS("embeddings/results/full/cifar_results_full.rds")
-chaosnli_mixed_results_full <- readRDS("embeddings/results/full/chaosnli_mixed_results_full.rds")
 
 chaosnli_results <- readRDS("embeddings/results/chaosnli_results.rds")
 so2sat_results <- readRDS("embeddings/results/so2sat_results.rds")

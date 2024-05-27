@@ -1,10 +1,5 @@
 # model functions ------------------------------------
-
-log_posterior <- function(z_i, mu, sigma, y_i){
-  J <- sum(y_i)
-  log_post <- log_prior(z_i, mu=mu, sigma=sigma) + log_likelihood(z_i, y_i)
-  return(log_post)
-}
+# compute value of log-prior, log-likelihood and log-posterior for one observation y_i
 
 log_prior <- function(z, mu, sigma){
   p <- mvtnorm::dmvnorm(z, mean=mu, sigma=sigma, log=TRUE)
@@ -16,7 +11,20 @@ log_likelihood <- function(z, y){
   return(ll)
 }
 
+log_posterior <- function(z_i, mu, sigma, y_i){
+  J <- sum(y_i)
+  log_post <- log_prior(z_i, mu=mu, sigma=sigma) + log_likelihood(z_i, y_i)
+  return(log_post)
+}
+
 # algorithm functions ---------------------------------
+# run EM algorithm with MCMC steps to estimate embeddings z_i for each observation i 
+# functions: 
+#   tune_acceptance: determine appropriate tune value of MCMCmetrop1R (~ 0.3)
+#   mcmc_simulation: iterate through observations and draw mcmc samples and average them to final embedding 
+#   m-step: calculate mu and sigma based on latest embedding estimates 
+#   train_once: run EM algorithm once
+#   fit_model: restart EM multiple times with varying seeds
 
 tune_acceptance <- function(y, 
                             mu_current, sigma_current,
@@ -43,7 +51,6 @@ mcmc_simulation <- function(y,
                            burnin_val=100, mcmc_val=2000, thin_val=20){
   
   K <- ncol(y)
-  
   z_hat <- matrix(data=NA, nrow=nrow(y), ncol=K)
   z_samples <- list()
   
@@ -77,6 +84,7 @@ mcmc_simulation <- function(y,
 
 m_step <- function(z_hat, weights){
   
+  # calculate new parameter values
   mu <- apply(z_hat, 2, function(x) weighted.mean(x, weights))
   sigma <- (1/(nrow(z_hat)-1))*(t((sweep(z_hat,2,mu)))%*%(sweep(z_hat,2,mu)))
   

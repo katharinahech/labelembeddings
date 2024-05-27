@@ -1,3 +1,9 @@
+# functions for producing plotting
+# - MCMC samples 
+# - mean of MCMC samples (final estimated embedding value)
+# - observed annotations 
+# for one observation of a specific dataset
+
 simulations_plot_chaosnli <- function(samples, id, z, y_patterns){
   
   i <- as.integer(id)
@@ -62,10 +68,6 @@ simulations_plot_chaosnli <- function(samples, id, z, y_patterns){
   return(p_final)
   
 }
-
-
-
-
 
 simulations_plot_so2sat <- function(samples, id, z, y_patterns){
   
