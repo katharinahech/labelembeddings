@@ -2,6 +2,8 @@ library(factoextra)
 library(ggmatplot)
 library(ramify)
 library(corrplot)
+library(ggplot2)
+library(MCMCpack)
 setwd('/Users/katharina/Documents/PhD/Scripts_Paper_2/Github/labelembeddings')
 
 # Import results and datasets
@@ -36,6 +38,24 @@ simulations_plot_chaosnli(samples=chaosnli_samples, id=1177, z=chaosnli_z, y_pat
 simulations_plot_chaosnli(samples=chaosnli_samples, id=1168, z=chaosnli_z, y_patterns=chaosnli_one_hot)
 simulations_plot_chaosnli(samples=chaosnli_samples, id=1371, z=chaosnli_z, y_patterns=chaosnli_one_hot)
 
+# save plots 
+ggsave(
+  "plots/chaosnli/exemplary_z_34.png",
+  simulations_plot_chaosnli(samples=chaosnli_samples, id=34, z=chaosnli_z, y_patterns=chaosnli_one_hot),
+)
+ggsave(
+  "plots/chaosnli/exemplary_z_1177.png",
+  simulations_plot_chaosnli(samples=chaosnli_samples, id=1177, z=chaosnli_z, y_patterns=chaosnli_one_hot),
+)
+ggsave(
+  "plots/chaosnli/exemplary_z_1168.png",
+  simulations_plot_chaosnli(samples=chaosnli_samples, id=1168, z=chaosnli_z, y_patterns=chaosnli_one_hot),
+)
+ggsave(
+  "plots/chaosnli/exemplary_z_1371.png",
+  simulations_plot_chaosnli(samples=chaosnli_samples, id=1371, z=chaosnli_z, y_patterns=chaosnli_one_hot),
+)
+
 # 3. biplot -----
 
 colnames(chaosnli_z) <- c('contradiction','neutral','entailment')
@@ -55,6 +75,24 @@ fviz_pca_biplot(chaosnli_pca, repel = TRUE, col.ind='gray', col.var = 'black', l
   ggtitle('') +
   theme(axis.text=element_text(size=15), legend.text = element_text(size=15))
 
+# save plots 
+ggsave(
+  "plots/chaosnli/biplot_majority_vote.png",
+  fviz_pca_biplot(chaosnli_pca, repel = TRUE, col.ind='gray', col.var = 'black', label='var', 
+                  habillage = majority_vote) + 
+    scale_color_manual(values=c("#ff7f00", "#4daf4a","#377eb8")) +
+    ggtitle('') +
+    theme(axis.text=element_text(size=15), legend.text = element_text(size=15)),
+)
+ggsave(
+  "plots/chaosnli/biplot_ground_truth.png",
+  fviz_pca_biplot(chaosnli_pca, repel = TRUE, col.ind='gray', col.var = 'black', label='var', 
+                  habillage = ground_truth) + 
+    scale_color_manual(values=c("#ff7f00", "#4daf4a","#377eb8")) +
+    ggtitle('') +
+    theme(axis.text=element_text(size=15), legend.text = element_text(size=15)),
+)
+
 # 4. biplot (mixed annotations)
 
 # extract z
@@ -69,6 +107,16 @@ fviz_pca_biplot(chaosnli_mixed_pca, repel = TRUE, col.ind='gray', col.var = 'bla
   ggtitle('') +
   scale_color_manual(values=c("#34c0ff", "#377eb8", '#0e194f')) +
   theme(axis.text=element_text(size=15), legend.text = element_text(size=15))
+
+# save plots 
+ggsave(
+  "plots/chaosnli/biplot_mixed_annotations.png",
+  fviz_pca_biplot(chaosnli_mixed_pca, repel = TRUE, col.ind='gray', col.var = 'black', label='var', 
+                  habillage = var_j, addEllipses=TRUE, ellipse.level=0.95) + 
+    ggtitle('') +
+    scale_color_manual(values=c("#34c0ff", "#377eb8", '#0e194f')) +
+    theme(axis.text=element_text(size=15), legend.text = element_text(size=15)),
+)
 
 # So2Sat ----------------------------
 
@@ -91,6 +139,28 @@ simulations_plot_so2sat(samples=so2sat_samples, id=66, z=so2sat_z, y_patterns=so
 simulations_plot_so2sat(samples=so2sat_samples, id=185, z=so2sat_z, y_patterns=so2sat_patterns[,1:16])
 simulations_plot_so2sat(samples=so2sat_samples, id=349, z=so2sat_z, y_patterns=so2sat_patterns[,1:16])
 
+# save plots 
+
+ggsave(
+  "plots/so2sat/exemplary_z_18.png",
+  simulations_plot_so2sat(samples=so2sat_samples, id=18, z=so2sat_z, y_patterns=so2sat_patterns[,1:16]),
+  width = 20, height = 15, units = "cm"
+)
+ggsave(
+  "plots/so2sat/exemplary_z_66.png",
+  simulations_plot_so2sat(samples=so2sat_samples, id=66, z=so2sat_z, y_patterns=so2sat_patterns[,1:16]),
+  width = 20, height = 15, units = "cm"
+)
+ggsave(
+  "plots/so2sat/exemplary_z_185.png",
+  simulations_plot_so2sat(samples=so2sat_samples, id=185, z=so2sat_z, y_patterns=so2sat_patterns[,1:16]),
+  width = 20, height = 15, units = "cm"
+)
+ggsave(
+  "plots/so2sat/exemplary_z_349.png",
+  simulations_plot_so2sat(samples=so2sat_samples, id=349, z=so2sat_z, y_patterns=so2sat_patterns[,1:16]),
+  width = 20, height = 15, units = "cm"
+)
 
 # 3. biplot -----
 
@@ -102,6 +172,14 @@ fviz_pca_biplot(so2sat_pca, repel = TRUE, col.ind='gray', col.var = 'black', lab
   ggtitle('') +
   theme(axis.text=element_text(size=15), legend.text = element_text(size=15))
 
+# save plots 
+ggsave(
+  "plots/so2sat/biplot_so2sat.png",
+  fviz_pca_biplot(so2sat_pca, repel = TRUE, col.ind='gray', col.var = 'black', label='var') + 
+    #scale_color_manual(values=c("#ff7f00", "#4daf4a","#377eb8")) +
+    ggtitle('') +
+    theme(axis.text=element_text(size=15), legend.text = element_text(size=15)),
+)
 
 # 4. correlation matrix -----
 
@@ -112,8 +190,7 @@ colnames(m) <- paste(c(1:6,8:10, 'A', 'B', 'C', 'D', 'E', 'F', 'G'), sep="")
 rownames(m) <- paste(c(1:6,8:10, 'A', 'B', 'C', 'D', 'E', 'F', 'G'), sep="")
 col <- colorRampPalette(c("#BB4444", "#fbe8e4","#fbe8e4", "#FFFFFF","#FFFFFF","#FFFFFF","#edf2f8", "#edf2f8", "#4477AA"))
 
-png("/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/new (revision)/plots/so2sat/correlation_so2sat.png",
-    height=1500, width=1500, res=200)
+png("plots/so2sat/correlation_so2sat.png", height=1500, width=1500, res=200)
 corrplot(m, method="color", col=col(200),
          type="upper",
          addCoef.col = "black", # Add coefficient of correlation
@@ -150,8 +227,8 @@ MCMC_corr_array <- array(unlist(MCMC_corr),
 MCMC_var_corr <- apply(MCMC_corr_array,c(1,2), var)
 MCMC_std_corr <- apply(MCMC_corr_array,c(1,2), sd)
 
-pdf("/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/new (revision)/plots/so2sat/correlation_std_so2sat.png",
-    width=10, height=10)
+png("plots/so2sat/correlation_std_so2sat.png",height=1500, width=1500, res=200)
+
 col2 <- colorRampPalette(c("#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF"))
 colnames(MCMC_std_corr) <- paste(c(1:6,8:10, 'A', 'B', 'C', 'D', 'E', 'F', 'G'), sep="")
 rownames(MCMC_std_corr) <- paste(c(1:6,8:10, 'A', 'B', 'C', 'D', 'E', 'F', 'G'), sep="")
@@ -193,6 +270,29 @@ simulations_plot_cifar(samples=cifar_samples, id=2843, z=cifar_z, y_patterns=cif
 simulations_plot_cifar(samples=cifar_samples, id=2847, z=cifar_z, y_patterns=cifar_patterns[,1:10])
 simulations_plot_cifar(samples=cifar_samples, id=265, z=cifar_z, y_patterns=cifar_patterns[,1:10])
 
+# save plots 
+
+ggsave(
+  "plots/cifar/exemplary_z_30_ship.png",
+  simulations_plot_cifar(samples=cifar_samples, id=30, z=cifar_z, y_patterns=cifar_patterns[,1:10]),
+  width = 20, height = 10, units = "cm"
+)
+ggsave(
+  "plots/cifar/exemplary_z_2843_deer.png",
+  simulations_plot_cifar(samples=cifar_samples, id=2843, z=cifar_z, y_patterns=cifar_patterns[,1:10]),
+  width = 20, height = 10, units = "cm"
+)
+ggsave(
+  "plots/cifar/exemplary_z_2847_cat.png",
+  simulations_plot_cifar(samples=cifar_samples, id=2847, z=cifar_z, y_patterns=cifar_patterns[,1:10]),
+  width = 20, height = 10, units = "cm"
+)
+ggsave(
+  "plots/cifar/exemplary_z_265_toad.png",
+  simulations_plot_cifar(samples=cifar_samples, id=265, z=cifar_z, y_patterns=cifar_patterns[,1:10]),
+  width = 20, height = 10, units = "cm"
+)
+
 # 3. biplot ------
 
 colnames(cifar_z) <- c('plane','auto','bird','cat','deer','dog','frog','horse','ship','truck')
@@ -203,6 +303,14 @@ fviz_pca_biplot(cifar_pca, repel = TRUE, col.ind='gray', col.var = 'black', labe
   ggtitle('') +
   theme(axis.text=element_text(size=15), legend.text = element_text(size=15))
 
+ggsave(
+  "plots/cifar/biplot_cifar.png",
+  fviz_pca_biplot(cifar_pca, repel = TRUE, col.ind='gray', col.var = 'black', label='var') + 
+    #scale_color_manual(values=c("#ff7f00", "#4daf4a","#377eb8")) +
+    ggtitle('') +
+    theme(axis.text=element_text(size=15), legend.text = element_text(size=15)),
+)
+
 # 4. correlation matrix ------
 
 m <- cor(cifar_z)
@@ -210,7 +318,7 @@ colnames(m) <- c('plane','auto','bird','cat','deer','dog','frog','horse','ship',
 rownames(m) <- c('plane','auto','bird','cat','deer','dog','frog','horse','ship','truck')
 col <- colorRampPalette(c("#BB4444", "#fbe8e4","#fbe8e4", "#FFFFFF","#FFFFFF","#FFFFFF","#edf2f8", "#edf2f8", "#4477AA"))
 
-png("/Users/katharina/Documents/PhD/Scripts_Paper_2/R_Code/new (revision)/plots/cifar/correlation_cifar.png",
+png("plots/cifar/correlation_cifar.png",
     height=1500, width=1500, res=200)
 corrplot(m, method="color", col=col(200),
          type="upper",

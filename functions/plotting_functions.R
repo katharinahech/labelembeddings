@@ -114,7 +114,7 @@ simulations_plot_so2sat <- function(samples, id, z, y_patterns){
     geom_col(fill='gray70', alpha=.6)+
     geom_text(aes(label = ifelse(votes>0,votes,'')),
               position = position_dodge(width = 1),
-              vjust = 1.8, size = 3) +
+              vjust = 1.8, size = 4) +
     theme(plot.margin = unit(c(-3,0, 0, 0), "cm")) +
     scale_y_continuous(position = "right") +
     scale_x_discrete(labels=LCZs)+
@@ -122,8 +122,8 @@ simulations_plot_so2sat <- function(samples, id, z, y_patterns){
     theme(panel.grid.major.y = element_blank()) +
     theme(panel.grid.major.x = element_blank()) +
     theme(panel.background = element_blank()) +
-    theme(axis.text=element_text(size=10),
-          axis.title=element_text(size=10))
+    theme(axis.text=element_text(size=16),
+          axis.title=element_text(size=16))
   
   p_final <- cowplot::plot_grid(p_sim_z_mean, p_y, align = "v", ncol = 1,
                                 rel_heights = c(0.95, 0.05))
@@ -178,7 +178,7 @@ simulations_plot_cifar <- function(samples, id, z, y_patterns){
     geom_col(fill='gray70', alpha=.6)+
     geom_text(aes(label = ifelse(votes>0,votes,'')),
               position = position_dodge(width = 1),
-              vjust = 1.8, size = 3) +
+              vjust = 1.8, size = 4) +
     theme(plot.margin = unit(c(-3,0, 0, 0), "cm")) +
     scale_y_continuous(position = "right") +
     scale_x_discrete(limits=classes)+
