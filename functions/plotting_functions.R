@@ -88,7 +88,7 @@ simulations_plot_so2sat <- function(samples, id, z, y_patterns){
     linetype = "solid") +
     theme(legend.position = "none") +
     ggtitle(paste0('Simulated values for observation ',i)) +
-    ylim(-15,15) +
+    ylim(-22,17) +
     theme(plot.title=element_text(size=16)) 
   
   
@@ -151,7 +151,7 @@ simulations_plot_cifar <- function(samples, id, z, y_patterns){
     linetype = "solid") +
     theme(legend.position = "none") +
     ggtitle(paste0('Simulated values for observation ',i)) +
-    ylim(-5,7) +
+    ylim(-15,15) +
     theme(plot.title=element_text(size=16)) +
     scale_x_discrete(limits=classes)
   

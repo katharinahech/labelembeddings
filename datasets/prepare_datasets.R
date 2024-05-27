@@ -31,9 +31,8 @@ chaosnli_df <- subset(chaosnli_df, select = -label_count)
 chaosnli_one_hot <- chaosnli_df[c('c', 'n', 'e')]
 
 # write to csv
-write.csv(chaosnli_df, "datasets/data/chaosnli_df.csv")
-write.csv(chaosnli_one_hot, "datasets/data/chaosnli_one_hot.csv")
-
+write.csv(chaosnli_df, "datasets/data/chaosnli_df.csv", row.names = FALSE)
+write.csv(chaosnli_one_hot, "datasets/data/chaosnli_one_hot.csv", row.names = FALSE)
 
 # So2Sat ------------------------------------------
 
@@ -44,7 +43,7 @@ so2sat_patterns <- so2sat_votes[,-1]
 LCZs <- c( "X1","X2","X3","X4","X5","X6","X8","X9","X10","X11","X12","X13","X14","X15","X16","X17")
 colnames(so2sat_patterns) <- c(LCZs, 'Freq')
 
-write.csv(so2sat_patterns, "datasets/data/so2sat_patterns.csv")
+write.csv(so2sat_patterns, "datasets/data/so2sat_patterns.csv", row.names = FALSE)
 
 # Cifar-10H ------------------------------
 
@@ -64,5 +63,5 @@ df$row_strings <- strsplit(as.character(df$row_strings), ",")
 result_matrix <- cbind(do.call(rbind, df$row_strings),Freq = df$Freq)
 cifar_patterns <- apply(result_matrix, c(1, 2), as.integer)
 
-write.csv(cifar_df, "datasets/data/cifar_df.csv")
-write.csv(cifar_patterns, "datasets/data/cifar_patterns.csv")
+write.csv(cifar_one_hot, "datasets/data/cifar_one_hot.csv", row.names = FALSE)
+write.csv(cifar_patterns, "datasets/data/cifar_patterns.csv", row.names = FALSE)

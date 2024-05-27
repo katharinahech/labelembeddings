@@ -3,12 +3,24 @@ library(ggmatplot)
 library(ramify)
 library(corrplot)
 
-# Import results 
+# Import results and datasets
+
+chaosnli_results_full <- readRDS("embeddings/results/full/chaosnli_results_full.rds")
+so2sat_results_full <- readRDS("embeddings/results/full/so2sat_results_full.rds")
+cifar_results_full <- readRDS("embeddings/results/full/cifar_results_full.rds")
+chaosnli_mixed_results_full <- readRDS("embeddings/results/full/chaosnli_mixed_results_full.rds")
 
 chaosnli_results <- readRDS("embeddings/results/chaosnli_results.rds")
 so2sat_results <- readRDS("embeddings/results/so2sat_results.rds")
 cifar_results <- readRDS("embeddings/results/cifar_results.rds")
 chaosnli_mixed_results <- readRDS("embeddings/results/chaosnli_mixed_results.rds")
+
+chaosnli_one_hot <- read.csv("datasets/data/chaosnli_one_hot.csv")
+chaosnli_one_hot_mixed <- read.csv("datasets/data/chaosnli_one_hot_mixed.csv")
+so2sat_patterns <- read.csv("datasets/data/so2sat_patterns.csv")
+cifar_patterns <- read.csv("datasets/data/cifar_patterns.csv")
+chaosnli_df <- read.csv("datasets/data/chaosnli_df.csv")
+cifar_one_hot <- read.csv("datasets/data/cifar_one_hot.csv")
 
 # Chaosnli ----------------------
 
@@ -20,15 +32,8 @@ chaosnli_example_ids <- c(34,1168,1177,1371)
 chaosnli_df[chaosnli_example_ids,]
 
 # extract embeddings + MCMC samples 
-chaosnli_embeddings_list <- chaosnli_results[[3]]
-
-for (z in chaosnli_embeddings_list){
-  print(compute_loss(z, colMeans(z), var(z), chaosnli_one_hot))
-}
-
-chaosnli_z <- chaosnli_embeddings_list[[6]]
-var(chaosnli_z)
-chaosnli_samples <- chaosnli_results[[4]][[6]]
+chaosnli_z <- chaosnli_results[[1]]
+chaosnli_samples <- chaosnli_results[[2]]
 
 simulations_plot_chaosnli(samples=chaosnli_samples, id=34, z=chaosnli_z, y_patterns=chaosnli_one_hot)
 simulations_plot_chaosnli(samples=chaosnli_samples, id=1177, z=chaosnli_z, y_patterns=chaosnli_one_hot)
@@ -57,10 +62,6 @@ fviz_pca_biplot(chaosnli_pca, repel = TRUE, col.ind='gray', col.var = 'black', l
 # 4. biplot (mixed annotations)
 
 # extract z
-chaosnli_mixed_embeddings_list <- chaosnli_mixed_results[[3]]
-for (z in chaosnli_mixed_embeddings_list){
-  print(compute_loss(z, colMeans(z), var(z), chaosnli_one_hot_mixed))
-}
 chaosnli_mixed_z <- chaosnli_mixed_results[[1]]
 
 # create plot
@@ -85,14 +86,9 @@ so2sat_example_ids <- c(18,66,294,349)
 so2sat_patterns[so2sat_example_ids,]
 
 # extract embeddings + MCMC samples 
-so2sat_embeddings_list <- so2sat_results[[3]]
 
-for (z in so2sat_embeddings_list){
-  print(compute_loss(z, colMeans(z), var(z), so2sat_patterns[,1:16]))
-}
-
-so2sat_z <- so2sat_embeddings_list[[13]]
-so2sat_samples <- so2sat_results[[4]][[13]]
+so2sat_z <- so2sat_results[[1]]
+so2sat_samples <- so2sat_results[[2]]
 
 simulations_plot_so2sat(samples=so2sat_samples, id=18, z=so2sat_z, y_patterns=so2sat_patterns[,1:16])
 simulations_plot_so2sat(samples=so2sat_samples, id=66, z=so2sat_z, y_patterns=so2sat_patterns[,1:16])
@@ -192,14 +188,9 @@ pattern_8941 <- cifar_one_hot[8941,2:11]
 cifar_patterns_example_ids <- c(30, 2843, 2847, 265)
 
 # extract embeddings + MCMC samples 
-cifar_embeddings_list <- cifar_results[[3]]
-
-for (z in cifar_embeddings_list){
-  print(compute_loss(z, colMeans(z), var(z), cifar_patterns[,1:10]))
-}
 
 cifar_z <- cifar_results[[1]]
-cifar_samples <- cifar_results[[4]][[length(cifar_embeddings_list)]]
+cifar_samples <- cifar_results[[2]]
 
 simulations_plot_cifar(samples=cifar_samples, id=30, z=cifar_z, y_patterns=cifar_patterns[,1:10])
 simulations_plot_cifar(samples=cifar_samples, id=2843, z=cifar_z, y_patterns=cifar_patterns[,1:10])
