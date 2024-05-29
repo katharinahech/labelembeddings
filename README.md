@@ -22,3 +22,9 @@ The folder "results" contains the script that produces the final results reporte
 The folder "functions" contains: 
 - model_functions: script with all functions needed for the model setup and estimation
 - plotting_functions: script with all functions needed for producing the plots shown in the paper. 
+
+To reproduce the results, follow the following steps: 
+1. Run scripts with functions.
+2. Prepare and save the datasets with prepare_datasets.R
+3. Run the model and save the embeddings with run_model.R
+4. Run results_for_paper.R to produce plots and graphics.
